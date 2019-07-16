@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'iteninary.apps.IteninaryConfig',
     'rest_framework',
+    'corsheaders',
 ]
 
 MIDDLEWARE = [
@@ -49,6 +50,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'corsheaders.middleware.CorsMiddleware',
 ]
 
 ROOT_URLCONF = 'Tourize.urls'
@@ -71,6 +73,15 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'Tourize.wsgi.application'
 
+
+CORS_ORIGIN_WHITELIST =(
+    'https://localhost:4200',
+    'https://localhost:4300',
+    'https://localhost:4201',
+    'https://localhost:8000',
+    'https://127.0.0.1:4200',
+    'https://localhost:8100',
+)
 
 # Database
 # https://docs.djangoproject.com/en/2.2/ref/settings/#databases

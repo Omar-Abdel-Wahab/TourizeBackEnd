@@ -24,5 +24,6 @@ urlpatterns = [
     path('activities/', views.ActivityList.as_view()),
     path('paths/', views.PathList.as_view()),
     path('iteninary/', views.IteninaryList.as_view()),
+    path('iteninaries/', views.IteninaryList.as_view()),
     path('', views.home)
 ]
