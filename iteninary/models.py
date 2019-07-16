@@ -70,23 +70,14 @@ class Transport(models.Model):
     def __str__(self):
         return self.type + "-" + self.provider
 
-
-class Restaurant(models.Model):
-    price = models.FloatField()
-    name = models.CharField(max_length=40)
-
-    def __str__(self):
-        return self.name
-
-
 class Path(models.Model):
     origin = models.CharField(max_length=255)
     destination = models.CharField(max_length=255)
     start_date = models.DateTimeField()
     end_date = models.DateTimeField()
+    open = models.BooleanField()
     transportation = models.ManyToManyField(Transport)
     housing = models.ManyToManyField(Housing)
-    restaurants = models.ManyToManyField(Restaurant)
     activities = models.ManyToManyField(Activity)
 
     def __str__(self):

@@ -2,29 +2,17 @@ from django.shortcuts import render
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
-from .models import Iteninary, Path, Restaurant, Transport, Activity, Housing
+from .models import Iteninary, Path, Transport, Activity, Housing
 from .serializers import (
     HousingSerializer,
     ActivitiesSerializer,
     TransportationSerializer,
-    RestaurantsSerializer,
     PathsSerializer,
     IteninarySerializer,)
 from django.http import HttpResponse
 
 def home(request):
     return HttpResponse('<h1> Home </h1>')
-
-def restaurantsave(request):
-    path = Path.objects.last()    
-    restaurants = request.data["restaurants"]
-    for restaurant in restaurants:
-        serializer = RestaurantsSerializer(data=restaurant)
-        if serializer.is_valid():
-            serializer.save()
-            path.restaurants.add(Restaurant.objects.last())
-        else:
-            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)    
 
 def housingsave(request):
     path = Path.objects.last()
@@ -67,24 +55,12 @@ def pathsave(request):
         if serializer.is_valid():
             serializer.save()
             iteninary.paths.add(Path.objects.last())
-            pathrestaurantsave(path)
             pathhousingsave(path)
             pathactivitiessave(path)
             pathtransportsave(path)
         else:
             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
     
-def pathrestaurantsave(sentpath):
-    path = Path.objects.last()
-    restaurants = sentpath["restaurants"]
-    for restaurant in restaurants:
-        serializer = RestaurantsSerializer(data=restaurant)
-        if serializer.is_valid():
-            serializer.save()
-            path.restaurants.add(Restaurant.objects.last())
-        else:
-            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)    
-
 def pathhousingsave(sentpath):
     path = Path.objects.last()
     housings = sentpath["housing"]
@@ -159,19 +135,6 @@ class TransportList(APIView):
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
-class RestaurantList(APIView):
-
-    def get(self, request):
-        restaurants = Restaurant.objects.all()
-        serializer = RestaurantsSerializer(restaurants, many=True)
-        return Response(serializer.data)
-    def post(self, request):
-        serializer = RestaurantsSerializer(data=request.data)
-        if serializer.is_valid():
-            serializer.save()
-            return Response(serializer.data, status=status.HTTP_201_CREATED)
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-
 class PathList(APIView):
 
     def get(self, request):
@@ -184,7 +147,6 @@ class PathList(APIView):
             path_serializer.save()
         else:
             return Response(path_serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-        restaurantsave(request)
         housingsave(request)
         activitiessave(request)
         transportsave(request)

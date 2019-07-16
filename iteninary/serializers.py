@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import Iteninary, Path, Restaurant, Transport, Activity, Housing
+from .models import Iteninary, Path, Transport, Activity, Housing
 
 class HousingSerializer(serializers.ModelSerializer):
     class Meta:
@@ -31,19 +31,9 @@ class TransportationSerializer(serializers.ModelSerializer):
             'end_date',
         ] 
 
-class RestaurantsSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Restaurant
-        fields = [
-            'price',
-            'name',
-        ] 
-
-
 class PathsSerializer(serializers.ModelSerializer):
     transportation = TransportationSerializer(read_only=True,many=True)
     housing = HousingSerializer(read_only=True,many=True)
-    restaurants = RestaurantsSerializer(read_only=True,many=True)
     activities = ActivitiesSerializer(read_only=True,many=True) 
     class Meta:
         model = Path
@@ -52,9 +42,9 @@ class PathsSerializer(serializers.ModelSerializer):
             'destination',
             'start_date',
             'end_date',
+            'open',
             'transportation',
             'housing',
-            'restaurants',
             'activities',
         ] 
 

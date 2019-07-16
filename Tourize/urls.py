@@ -20,7 +20,6 @@ from iteninary import views
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('housings/', views.HousingList.as_view()),
-    path('restaurants/', views.RestaurantList.as_view()),
     path('transports/', views.TransportList.as_view()),
     path('activities/', views.ActivityList.as_view()),
     path('paths/', views.PathList.as_view()),
