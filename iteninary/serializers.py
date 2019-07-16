@@ -54,6 +54,7 @@ class IteninarySerializer(serializers.ModelSerializer):
     class Meta:
         model = Iteninary
         fields = [
+            'id',
             'title',
             'start_date',
             'end_date',
